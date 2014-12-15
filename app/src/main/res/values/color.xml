@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FF6600</color>
+    <color name="primary_dark">#CF5300</color>
+    <color name="accent">#FF6600</color>
+    <color name="navigationBarColor">#FF6600</color>
+    <color name="windowBackground">#F6F6EF</color>
+
+
+    <color name="listTextColor">#828282</color>
+    <color name="listLinkTextColor">#0000FF</color>
+    <color name="listTitleTextColor">#000000</color>
+
+</resources>
