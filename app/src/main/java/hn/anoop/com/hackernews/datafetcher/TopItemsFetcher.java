@@ -45,8 +45,8 @@ public class TopItemsFetcher extends AsyncTask<Void, Void, Item[]> {
 
 
             int length = ids.length;
-            if (length > 20) {
-                length = 20;
+            if (length > 5) {
+                length = 5;
             }
 
             Item[] items = new Item[length];

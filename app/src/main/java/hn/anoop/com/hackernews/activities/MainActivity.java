@@ -1,5 +1,6 @@
 package hn.anoop.com.hackernews.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.adapters.HNAdapter;
@@ -32,8 +36,13 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         super.onCreate(savedInstanceState);
         Log.e("ANOOP", "In MainActivity onCreate");
         setContentView(R.layout.activity_main);
-        getActionBar().show();
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            actionBar.show();
+            actionBar.setIcon(android.R.color.transparent);
+        }
 
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -43,13 +52,15 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list)).setActivateOnItemClick(true);
+            itemListFragment.setActivateOnItemClick(true);
 
         }
         // TODO:  handle intents here for deep links into your app,
 
         //TODO: Change to a singleton instance here and in ItemDetailActivity
 
+        //Disable the Loading... text
+//        itemListFragment.setEmptyText(""); //not working TODO:
 
         mDataSource.setDataListener(this);
         mDataSource.fetchData();

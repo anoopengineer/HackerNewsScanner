@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
+        android:paddingTop="8dp"
         android:paddingBottom="5dp"
         android:background="@drawable/selector_card_background"
         android:paddingLeft="@dimen/card_layout_left_margin"
@@ -24,33 +24,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/listTitleTextColor"
             android:textSize="@dimen/list_title_size"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp">
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/listTextColor"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/author"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/listTextColor"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/comments"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/listTextColor"
-                android:layout_weight="1"/>
+            android:textColor="@color/listTextColor"/>
 
-        </LinearLayout>
 
         <TextView
             android:id="@+id/message"
