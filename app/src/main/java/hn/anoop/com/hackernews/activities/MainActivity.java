@@ -4,14 +4,17 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import hn.anoop.com.hackernews.R;
@@ -22,7 +25,7 @@ import hn.anoop.com.hackernews.fragment.ItemListFragment;
 import hn.anoop.com.hackernews.model.Item;
 
 
-public class MainActivity extends Activity implements ItemListFragment.Callbacks, DataSource.DataListener {
+public class MainActivity extends Activity implements ItemListFragment.Callbacks, DataSource.DataListener, SwipeRefreshLayout.OnRefreshListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -61,9 +64,9 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
 
         //Disable the Loading... text
 //        itemListFragment.setEmptyText(""); //not working TODO:
-
+        itemListFragment.setOnRefreshListener(this);
         mDataSource.setDataListener(this);
-        mDataSource.fetchData();
+        getData();
 
     }
 
@@ -129,12 +132,27 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     @Override
     public void dataUpdated() {
         Log.e("ANOOP", "In MainActivity dataUpdated");
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
         if (mTwoPane) {
 //TODO:
         }else{
-            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
             BaseAdapter adapter = new HNAdapter(this, mDataSource.getAll());
             itemListFragment.setListAdapter(adapter);
         }
+        itemListFragment.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        mDataSource.getAll().clear();
+        getData();
+    }
+
+    private void getData(){
+        Log.e("ANOOP", "In MainActivity onRefresh()");
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+        BaseAdapter adapter = new HNAdapter(this, null);
+        itemListFragment.setListAdapter(adapter);
+        mDataSource.fetchData();
     }
 }

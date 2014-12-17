@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/selector_card_background"
         android:paddingLeft="@dimen/card_layout_left_margin"
+        android:paddingRight="@dimen/card_layout_left_margin"
+        android:background="@drawable/selector_card_background"
         android:descendantFocusability="afterDescendants">
 
         <TextView

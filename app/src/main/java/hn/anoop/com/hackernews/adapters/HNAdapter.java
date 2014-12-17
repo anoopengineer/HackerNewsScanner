@@ -23,14 +23,16 @@ import hn.anoop.com.hackernews.model.Item;
  */
 public class HNAdapter extends BaseAdapter {
 
-    private final Item[] items;
+    private Item[] items;
     private final Context context;
     private final LayoutInflater inflater;
     private final PrettyTime p = new PrettyTime();
 
     public HNAdapter(Activity context, List<Item> items) {
         this.context = context;
-        this.items = items.toArray(new Item[items.size()]);
+        if(items != null) {
+            this.items = items.toArray(new Item[items.size()]);
+        }
         inflater = context.getLayoutInflater();
     }
 
