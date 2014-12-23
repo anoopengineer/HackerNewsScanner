@@ -5,24 +5,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.adapters.HNAdapter;
 import hn.anoop.com.hackernews.datasource.DataSource;
 import hn.anoop.com.hackernews.fragment.ItemDetailFragment;
 import hn.anoop.com.hackernews.fragment.ItemListFragment;
-import hn.anoop.com.hackernews.model.Item;
+import hn.anoop.com.hackernews.utils.Util;
 
 
 public class MainActivity extends Activity implements ItemListFragment.Callbacks, DataSource.DataListener, SwipeRefreshLayout.OnRefreshListener {
@@ -148,11 +142,16 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         getData();
     }
 
-    private void getData(){
+    private void getData() {
         Log.e("ANOOP", "In MainActivity onRefresh()");
-        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
-        BaseAdapter adapter = new HNAdapter(this, null);
-        itemListFragment.setListAdapter(adapter);
-        mDataSource.fetchData();
+        if (Util.isOnline(this)) {
+//            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+//            BaseAdapter adapter = new HNAdapter(this, null);
+//            itemListFragment.setListAdapter(adapter);
+            mDataSource.fetchData();
+        }else{
+            Toast.makeText(this,R.string.network_unavailable,Toast.LENGTH_LONG).show();
+        }
+
     }
 }

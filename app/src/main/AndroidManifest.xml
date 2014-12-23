@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hn.anoop.com.hackernews" >
 
+    <!--This permission is required to access the internet-->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--This permission is required to verify whether the device has network connectivity or not-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -24,6 +27,8 @@
         <activity
             android:name=".activities.WebViewActivity"
             android:label="@string/title_activity_web_view">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"/>
         </activity>
     </application>
 

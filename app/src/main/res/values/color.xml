@@ -8,7 +8,10 @@
 
 
     <color name="listTextColor">#828282</color>
-    <color name="listLinkTextColor">#0000FF</color>
-    <color name="listTitleTextColor">#000000</color>
+    <color name="listLinkTextColor">#555555</color>
+    <color name="listTitleTextColor">#333333</color>
+    <color name="listDomainTextColor">#FF6600</color>
+    <color name="listFooterTextColor">#555555</color>
+    <color name="link_separator">#DDDDDD</color>
 
 </resources>
