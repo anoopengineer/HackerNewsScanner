@@ -1,6 +1,9 @@
 package hn.anoop.com.hackernews.datafetcher;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -9,6 +12,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import hn.anoop.com.hackernews.model.Item;
 import hn.anoop.com.hackernews.utils.AsyncTaskResultEvent;
@@ -69,11 +74,35 @@ public class TopItemsFetcher extends AsyncTask<Void, Void, Item[]> {
         String body = response.body().string();
         Log.e("ANOOP", body);
         Item item = gson.fromJson(body, Item.class);
+
+        if(!TextUtils.isEmpty(item.getUrl())){
+            fetchFavIcon(item, client);
+        }
 //        return null;
 //        Item item = new Item();
 //        item.setId(0);
         return item;
     }
+
+    private void fetchFavIcon(Item item, OkHttpClient client) {
+        String domain = null;
+        String favIcon = null;
+        try {
+            URL url = new URL(item.getUrl());
+            domain = url.getHost();
+            int port = url.getPort();
+            String portSt = (port == -1) ? "" : ":" + port;
+            favIcon = url.getProtocol() + "://" + url.getHost() + portSt + "/favicon.ico";
+            Request request = new Request.Builder().url(favIcon).build();
+            Response response = client.newCall(request).execute();
+            Bitmap bitMap = BitmapFactory.decodeStream(response.body().byteStream());
+            item.setFavIcon(bitMap);
+            item.setDomain(domain);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     protected void onPostExecute(Item[] items) {

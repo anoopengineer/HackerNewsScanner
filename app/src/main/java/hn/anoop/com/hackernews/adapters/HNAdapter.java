@@ -14,15 +14,12 @@ import android.widget.TextView;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.activities.WebViewActivity;
 import hn.anoop.com.hackernews.model.Item;
-import hn.anoop.com.hackernews.utils.DownloadImageTask;
 
 /**
  * Created by Akunju00c on 12/2/2014.
@@ -98,25 +95,15 @@ public class HNAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(item.getUrl())) {
             TextView linkView = (TextView) convertView.findViewById(R.id.link);
             linkView.setText(item.getUrl());
-            String domain = null;
-            String favIcon = null;
-            try {
-                URL url = new URL(item.getUrl());
-                domain = url.getHost();
-                int port = url.getPort();
-                String portSt = (port == -1) ? "" : ":" + port;
-                favIcon = url.getProtocol() + "://" + url.getHost() + portSt + "/favicon.ico";
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
             TextView domainView = (TextView) convertView.findViewById(R.id.domain);
+            String domain = item.getDomain();
             if (TextUtils.isEmpty(domain)) {
                 domainView.setVisibility(View.GONE);
             } else {
                 domainView.setText(domain);
             }
-            if (!TextUtils.isEmpty(favIcon)) {
-                new DownloadImageTask(favIconView).execute(favIcon);
+            if(item.getFavIcon() != null){
+                favIconView.setImageBitmap(item.getFavIcon());
             }
 
             final String finalDomain = domain;

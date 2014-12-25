@@ -21,9 +21,6 @@ tools:context="hn.anoop.com.hackernews.fragment.WebViewFragment">
 <WebView
     android:id="@+id/webView"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:layout_centerVertical="true" />
+    android:layout_height="fill_parent"/>
 
 </LinearLayout>

@@ -26,8 +26,6 @@ public class WebViewActivity extends Activity implements WebViewFragment.OnFragm
     public static final String URL = "hn.anoop.com.hackernew.activities.WebViewActivity.URL_KEY";
     public static final String DOMAIN = "hn.anoop.com.hackernew.activities.WebViewActivity.DOMAIN_KEY";
 
-    private ProgressBar progressBar;
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -37,6 +35,7 @@ public class WebViewActivity extends Activity implements WebViewFragment.OnFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        setTitle(R.string.loading);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.show();

@@ -9,7 +9,7 @@ import android.net.Uri;
 /**
  * Created by Akunju00c on 12/23/2014.
  */
-public class Util {
+public class Utils {
     public static boolean isOnline(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

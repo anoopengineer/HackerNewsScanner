@@ -16,7 +16,7 @@ import hn.anoop.com.hackernews.adapters.HNAdapter;
 import hn.anoop.com.hackernews.datasource.DataSource;
 import hn.anoop.com.hackernews.fragment.ItemDetailFragment;
 import hn.anoop.com.hackernews.fragment.ItemListFragment;
-import hn.anoop.com.hackernews.utils.Util;
+import hn.anoop.com.hackernews.utils.Utils;
 
 
 public class MainActivity extends Activity implements ItemListFragment.Callbacks, DataSource.DataListener, SwipeRefreshLayout.OnRefreshListener {
@@ -144,7 +144,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
 
     private void getData() {
         Log.e("ANOOP", "In MainActivity onRefresh()");
-        if (Util.isOnline(this)) {
+        if (Utils.isOnline(this)) {
 //            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
 //            BaseAdapter adapter = new HNAdapter(this, null);
 //            itemListFragment.setListAdapter(adapter);

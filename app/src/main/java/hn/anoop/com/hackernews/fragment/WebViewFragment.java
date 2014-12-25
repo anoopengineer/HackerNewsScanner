@@ -2,7 +2,6 @@ package hn.anoop.com.hackernews.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -21,8 +20,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import hn.anoop.com.hackernews.R;
-import hn.anoop.com.hackernews.activities.MainActivity;
-import hn.anoop.com.hackernews.utils.Util;
+import hn.anoop.com.hackernews.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +37,10 @@ public class WebViewFragment extends Fragment {
     private String mURL;
     private String mDomain;
 
+
+
     private OnFragmentInteractionListener mListener;
+    private WebView mWebView;
 
     public static WebViewFragment newInstance(String url, String domain) {
         WebViewFragment fragment = new WebViewFragment();
@@ -62,6 +63,7 @@ public class WebViewFragment extends Fragment {
             mDomain = getArguments().getString(DOMAIN);
         }
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override
@@ -71,11 +73,11 @@ public class WebViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_web_view, container, false);
 
 
-        initializeWebView(view);
+        initializeWebView(view, savedInstanceState);
         return view;
     }
 
-    private void initializeWebView(View view) {
+    private void initializeWebView(View view, Bundle savedInstanceState) {
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -86,15 +88,18 @@ public class WebViewFragment extends Fragment {
             actionBar.setSubtitle(mDomain);
         }
 
-        WebView webView = (WebView) view.findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setSupportZoom(true);
-        //if ROM supports Multi-Touch
-        webView.getSettings().setBuiltInZoomControls(true); //Enable Multitouch if supported by ROM
+        mWebView = (WebView) view.findViewById(R.id.webView);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setSupportZoom(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+
+        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        mWebView.setScrollbarFadingEnabled(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
 
         // Sets the Chrome Client, and defines the onProgressChanged
         // This makes the Progress bar be updated.
-        webView.setWebChromeClient(new WebChromeClient() {
+        mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 //Make the bar disappear after URL is loaded, and changes string to Loading...
@@ -109,14 +114,19 @@ public class WebViewFragment extends Fragment {
                 super.onReceivedTitle(view, title);
                 if (!TextUtils.isEmpty(title)) {
                     ActionBar actionBar = getActivity().getActionBar();
-                    if(actionBar != null) {
+                    if (actionBar != null) {
                         actionBar.setTitle(title);
                     }
                 }
             }
         });
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(mURL);
+        mWebView.setWebViewClient(new WebViewClient());
+
+        if(savedInstanceState == null) {
+            mWebView.loadUrl(mURL);
+        }else{
+            mWebView.restoreState(savedInstanceState);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -159,7 +169,7 @@ public class WebViewFragment extends Fragment {
 
         switch (id){
             case R.id.action_showInBrowser:
-                Util.openInBrowser(getActivity(),mURL);
+                Utils.openInBrowser(getActivity(), mURL);
                 return true;
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(getActivity());
@@ -170,6 +180,14 @@ public class WebViewFragment extends Fragment {
 
     public String stripHtml(String html) {
         return Html.fromHtml(html).toString();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mWebView != null) {
+            mWebView.saveState(outState);
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 package hn.anoop.com.hackernews.model;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Akunju00c on 11/30/2014.
  */
@@ -19,6 +21,9 @@ public class Item {
     Integer[] kids;
     Integer parent;
     Integer[] parts;
+
+    Bitmap favIcon;
+    String domain;
 
 
     public Integer getId() {
@@ -125,4 +130,19 @@ public class Item {
         this.parent = parent;
     }
 
+    public Bitmap getFavIcon() {
+        return favIcon;
+    }
+
+    public void setFavIcon(Bitmap favIcon) {
+        this.favIcon = favIcon;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 }
