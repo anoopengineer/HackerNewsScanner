@@ -59,6 +59,7 @@
 
                 <ImageView
                     android:id="@+id/favicon"
+                    android:contentDescription="@string/hn_card_favicon_content_description"
                     android:layout_width="@dimen/hn_linkView_ImageDimen"
                     android:layout_height="@dimen/hn_linkView_ImageDimen"
                     android:layout_marginTop="7dp" />
@@ -108,18 +109,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Score: 1203"
+                    android:text="@string/hn_card_score"
                     android:textColor="@color/listFooterTextColor" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100+ Comments"
+                    android:text="@string/hn_card_comments"
                     android:textColor="@color/listFooterTextColor" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/ImageButton01"
+                android:contentDescription="@string/hn_card_upvote_content_description"
                 android:layout_width="@dimen/hn_card_image_button_size"
                 android:layout_height="@dimen/hn_card_image_button_size"
                 android:layout_marginLeft="20dp"

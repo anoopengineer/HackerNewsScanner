@@ -8,9 +8,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="network_unavailable">Internet connection not available</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hn_card_score">Score:</string>
+    <string name="hn_card_comments">Comments</string>
+    <string name="hn_card_favicon_content_description">favicon</string>
+    <string name="hn_card_upvote_content_description">upvote</string>
 
 </resources>
