@@ -1,14 +1,14 @@
 language: android
 
 android:
-  components:
-    # Force update platform-tools and tools, to always run with the latest revision of Android SDK
-    - platform-tools
-    - tools
-    # List of components that are not preinstalled on Travis VM, or that need to be updated
-    - build-tools-20.0.0
-	
+    components:
+        # Force update platform-tools and tools, to always run with the latest revision of Android SDK
+        - platform-tools
+        - tools
+        # List of components that are not preinstalled on Travis VM, or that need to be updated
+        - build-tools-20.0.0
+
 before_install:
- - chmod +x gradlew
- 
+    - chmod +x gradlew
+
 script: ./gradlew build assembleDebug
