@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         Log.e("ANOOP", "In MainActivity onCreate");
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.show();
             actionBar.setIcon(android.R.color.transparent);
         }
@@ -129,7 +129,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
         if (mTwoPane) {
 //TODO:
-        }else{
+        } else {
             BaseAdapter adapter = new HNAdapter(this, mDataSource.getAll());
             itemListFragment.setListAdapter(adapter);
         }
@@ -145,12 +145,14 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     private void getData() {
         Log.e("ANOOP", "In MainActivity onRefresh()");
         if (Utils.isOnline(this)) {
-//            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
-//            BaseAdapter adapter = new HNAdapter(this, null);
-//            itemListFragment.setListAdapter(adapter);
             mDataSource.fetchData();
-        }else{
-            Toast.makeText(this,R.string.network_unavailable,Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
+            //Adding an adapter will stop the loading animation
+            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+            BaseAdapter adapter = new HNAdapter(this, null);
+            itemListFragment.setListAdapter(adapter);
+
         }
 
     }
