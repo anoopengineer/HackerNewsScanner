@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import hn.anoop.com.hackernews.R;
@@ -16,6 +17,7 @@ import hn.anoop.com.hackernews.adapters.HNAdapter;
 import hn.anoop.com.hackernews.datasource.DataSource;
 import hn.anoop.com.hackernews.fragment.ItemDetailFragment;
 import hn.anoop.com.hackernews.fragment.ItemListFragment;
+import hn.anoop.com.hackernews.utils.EndlessScrollListener;
 import hn.anoop.com.hackernews.utils.Utils;
 
 
@@ -59,9 +61,21 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         //Disable the Loading... text
 //        itemListFragment.setEmptyText(""); //not working TODO:
         itemListFragment.setOnRefreshListener(this);
+        addScrollListener();
         mDataSource.setDataListener(this);
         getData();
 
+    }
+
+    private void addScrollListener() {
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+        itemListFragment.getListView().setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("ANOOP", "On onLoadMore page = " + page + " totalItemsCount " + totalItemsCount);
+                appendData();
+            }
+        });
     }
 
     @Override
@@ -130,8 +144,14 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         if (mTwoPane) {
 //TODO:
         } else {
-            BaseAdapter adapter = new HNAdapter(this, mDataSource.getAll());
-            itemListFragment.setListAdapter(adapter);
+            ListAdapter adapter = itemListFragment.getListAdapter();
+            if(adapter == null) {
+                itemListFragment.setListAdapter(new HNAdapter(this, mDataSource.getAll()));
+            }else{
+                HNAdapter hnAdapter = (HNAdapter) adapter;
+                hnAdapter.setItems(mDataSource.getAll());
+                hnAdapter.notifyDataSetChanged();
+            }
         }
         itemListFragment.setRefreshing(false);
     }
@@ -139,6 +159,8 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     @Override
     public void onRefresh() {
         mDataSource.getAll().clear();
+        //Need to re-add the scroll listeners or it the auto load on scroll will not work
+        addScrollListener();
         getData();
     }
 
@@ -147,13 +169,24 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         if (Utils.isOnline(this)) {
             mDataSource.fetchData();
         } else {
-            Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
-            //Adding an adapter will stop the loading animation
-            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
-            BaseAdapter adapter = new HNAdapter(this, null);
-            itemListFragment.setListAdapter(adapter);
-
+            enableNoNetworkMode();
         }
+    }
 
+    private void appendData() {
+        Log.e("ANOOP", "In MainActivity appendData()");
+        if (Utils.isOnline(this)) {
+            mDataSource.appendData();
+        } else {
+            enableNoNetworkMode();
+        }
+    }
+
+    private void enableNoNetworkMode(){
+        Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
+        //Adding an adapter will stop the loading animation
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+        BaseAdapter adapter = new HNAdapter(this, null);
+        itemListFragment.setListAdapter(adapter);
     }
 }

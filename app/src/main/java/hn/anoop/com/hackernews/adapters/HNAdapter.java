@@ -33,10 +33,14 @@ public class HNAdapter extends BaseAdapter {
 
     public HNAdapter(Activity context, List<Item> items) {
         this.context = context;
+        setItems(items);
+        inflater = context.getLayoutInflater();
+    }
+
+    public void setItems(List<Item> items){
         if (items != null) {
             this.items = items.toArray(new Item[items.size()]);
         }
-        inflater = context.getLayoutInflater();
     }
 
     @Override
