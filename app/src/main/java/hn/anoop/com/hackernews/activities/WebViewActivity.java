@@ -35,11 +35,12 @@ public class WebViewActivity extends Activity implements WebViewFragment.OnFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        setTitle(R.string.loading);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.show();
             actionBar.setIcon(android.R.color.transparent);
+            actionBar.setTitle(getIntent().getStringExtra(DOMAIN));
+            actionBar.setSubtitle(R.string.loading);
         }
 
         FragmentManager manager = getFragmentManager();

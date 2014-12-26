@@ -115,7 +115,7 @@ public class WebViewFragment extends Fragment {
                 if (!TextUtils.isEmpty(title)) {
                     ActionBar actionBar = getActivity().getActionBar();
                     if (actionBar != null) {
-                        actionBar.setTitle(title);
+                        actionBar.setSubtitle(title);
                     }
                 }
             }
