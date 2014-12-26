@@ -108,6 +108,8 @@ public class HNAdapter extends BaseAdapter {
             }
             if(item.getFavIcon() != null){
                 favIconView.setImageBitmap(item.getFavIcon());
+            }else{
+                favIconView.setImageResource(R.drawable.ic_broken_link);
             }
 
             final String finalDomain = domain;
