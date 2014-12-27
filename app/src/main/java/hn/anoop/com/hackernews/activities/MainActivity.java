@@ -8,9 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.adapters.HNAdapter;
@@ -29,6 +32,9 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
      */
     private boolean mTwoPane;
     private DataSource mDataSource = DataSource.getInstance();
+
+    //The progress bar at the bottom of the listview for loading
+    private View mFooterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,14 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         //Disable the Loading... text
 //        itemListFragment.setEmptyText(""); //not working TODO:
         itemListFragment.setOnRefreshListener(this);
+
+        this.mFooterView = View.inflate(this, R.layout.list_loading_footer, null);
+
+//        mDataSource.getAll().clear();
+//        itemListFragment.setListAdapter(new HNAdapter(this, mDataSource.getAll()));
+        itemListFragment.setRefreshing(true);
+        itemListFragment.setListShown(false);
+
         addScrollListener();
         mDataSource.setDataListener(this);
         getData();
@@ -101,9 +115,12 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_refresh:
+                onRefresh();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -145,13 +162,16 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
 //TODO:
         } else {
             ListAdapter adapter = itemListFragment.getListAdapter();
-            if(adapter == null) {
+            if (adapter == null) {
                 itemListFragment.setListAdapter(new HNAdapter(this, mDataSource.getAll()));
-            }else{
+            } else {
+                itemListFragment.setListShown(true);
                 HNAdapter hnAdapter = (HNAdapter) adapter;
                 hnAdapter.setItems(mDataSource.getAll());
                 hnAdapter.notifyDataSetChanged();
             }
+            itemListFragment.setRefreshing(false);
+            itemListFragment.getListView().removeFooterView(mFooterView);
         }
         itemListFragment.setRefreshing(false);
     }
@@ -159,13 +179,17 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     @Override
     public void onRefresh() {
         mDataSource.getAll().clear();
+        ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+        itemListFragment.setListAdapter(new HNAdapter(this, mDataSource.getAll()));
+        itemListFragment.setRefreshing(false);
+
         //Need to re-add the scroll listeners or it the auto load on scroll will not work
         addScrollListener();
         getData();
     }
 
     private void getData() {
-        Log.e("ANOOP", "In MainActivity onRefresh()");
+        Log.e("ANOOP", "In MainActivity getData()");
         if (Utils.isOnline(this)) {
             mDataSource.fetchData();
         } else {
@@ -176,13 +200,17 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     private void appendData() {
         Log.e("ANOOP", "In MainActivity appendData()");
         if (Utils.isOnline(this)) {
+            ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+            if(itemListFragment.getListView().getFooterViewsCount() <=1 ) {
+                itemListFragment.getListView().addFooterView(mFooterView);
+            }
             mDataSource.appendData();
         } else {
             enableNoNetworkMode();
         }
     }
 
-    private void enableNoNetworkMode(){
+    private void enableNoNetworkMode() {
         Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
         //Adding an adapter will stop the loading animation
         ItemListFragment itemListFragment = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);

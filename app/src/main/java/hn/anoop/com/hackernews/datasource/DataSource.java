@@ -138,11 +138,16 @@ public class DataSource {
     }
 
     public void appendData() {
+        if(mDataList == null || mDataList.size() == 0 || mIDList == null || mIDList.length == 0){
+            mListener.dataUpdated();
+            return;
+        }
         Log.e("ANOOP", "In DataSource.appendData()");
 
         int currentFetchSize = mDataList.size();
         if (currentFetchSize >= mIDList.length) {
             Log.w("ANOOP", "Nothing more to fetch");
+            mListener.dataUpdated();
             return;
         }
         Log.e("ANOOP", "In DataSource.appendData() currentFetchSize = "+currentFetchSize + " mIDList.length = "+mIDList.length);

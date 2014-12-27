@@ -16,5 +16,6 @@
     <string name="hn_card_comments">Comments</string>
     <string name="hn_card_favicon_content_description">favicon</string>
     <string name="hn_card_upvote_content_description">upvote</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>
