@@ -2,10 +2,12 @@ package hn.anoop.com.hackernews.model;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by Akunju00c on 11/30/2014.
  */
-public class Item {
+public class Item implements Serializable{
 
 
     Integer id;

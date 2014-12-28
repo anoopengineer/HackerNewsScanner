@@ -2,6 +2,7 @@ package hn.anoop.com.hackernews.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,10 +52,18 @@ public class ItemDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            mItem = (Item) bundle.getSerializable("selectedItem");
+            Log.e("item","bundlee"+mItem);
+
+        }
+
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             //TODO: Remove the hard codings
             ((TextView) rootView.findViewById(R.id.item_detail)).setText("Anoop");
+            Log.e("item","itemmm"+mItem.getTitle());
         }
 
         return rootView;

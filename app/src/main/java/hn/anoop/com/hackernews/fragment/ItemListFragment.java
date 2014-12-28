@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.datasource.DataSource;
+import hn.anoop.com.hackernews.model.Item;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -37,7 +38,7 @@ public class ItemListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(Item id) {
         }
     };
     /**
@@ -97,12 +98,16 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         Log.e("ANOOP", "ItemListFragment onListItemClick");
+        Log.e("ANOOP", "pos : "+position+ " id : "+id);
+
         super.onListItemClick(listView, view, position, id);
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
         //TODO: hardcoding
-        mCallbacks.onItemSelected("1");
+
+        Item obj = (Item)listView.getItemAtPosition(position);
+        mCallbacks.onItemSelected(obj);
     }
 
     @Override
@@ -223,8 +228,9 @@ public class ItemListFragment extends ListFragment {
     public interface Callbacks {
         /**
          * Callback for when an item has been selected.
+         * @param id
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(Item id);
     }
 
     /**

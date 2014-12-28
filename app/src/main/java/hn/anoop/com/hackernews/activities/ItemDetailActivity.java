@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import hn.anoop.com.hackernews.R;
@@ -46,8 +47,14 @@ public class ItemDetailActivity extends Activity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             int id = getIntent().getIntExtra(ItemDetailFragment.ARG_ITEM_ID, -1);
+
+
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setItem(mDataSource.getById(id));
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("selectedItem", mDataSource.getAll().get(id));
+            fragment.setArguments(bundle);
+
             getFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
         }
     }

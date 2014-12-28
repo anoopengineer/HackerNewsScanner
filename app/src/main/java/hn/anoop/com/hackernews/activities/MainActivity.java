@@ -13,13 +13,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import hn.anoop.com.hackernews.R;
 import hn.anoop.com.hackernews.adapters.HNAdapter;
 import hn.anoop.com.hackernews.datasource.DataSource;
 import hn.anoop.com.hackernews.fragment.ItemDetailFragment;
 import hn.anoop.com.hackernews.fragment.ItemListFragment;
+import hn.anoop.com.hackernews.model.Item;
 import hn.anoop.com.hackernews.utils.EndlessScrollListener;
 import hn.anoop.com.hackernews.utils.Utils;
 
@@ -129,10 +128,11 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
     /**
      * Callback method from {@link ItemListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
+     * @param id
      */
     @Override
-    public void onItemSelected(String id) {
-        Log.e("ANOOP", "onItemSelected called "+id);
+    public void onItemSelected(Item item) {
+        Log.e("ANOOP", "onItemSelected called "+item);
 
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
@@ -141,7 +141,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
 //            Bundle arguments = new Bundle();
 //            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
             ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setItem(mDataSource.getById(Integer.parseInt(id)));
+//            fragment.setItem(mDataSource.getById(Integer.parseInt(id)));
 //            fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
@@ -150,8 +150,9 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
+
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
             startActivity(detailIntent);
         }
     }
