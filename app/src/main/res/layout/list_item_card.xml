@@ -119,14 +119,16 @@
                     android:textColor="@color/listFooterTextColor" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/ImageButton01"
-                android:contentDescription="@string/hn_card_upvote_content_description"
-                android:layout_width="@dimen/hn_card_image_button_size"
-                android:layout_height="@dimen/hn_card_image_button_size"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/ic_action"
-                android:scaleType="fitXY" />
+            <!--<ImageButton-->
+                <!--android:id="@+id/ImageButton01"-->
+                <!--android:contentDescription="@string/hn_card_upvote_content_description"-->
+                <!--android:layout_width="@dimen/hn_card_image_button_size"-->
+                <!--android:layout_height="@dimen/hn_card_image_button_size"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:background="@drawable/ic_action"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:focusable="false"-->
+                <!--android:foc/>-->
 
         </LinearLayout>
     </LinearLayout>

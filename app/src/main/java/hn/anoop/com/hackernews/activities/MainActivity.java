@@ -132,6 +132,8 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
      */
     @Override
     public void onItemSelected(String id) {
+        Log.e("ANOOP", "onItemSelected called "+id);
+
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
