@@ -14,4 +14,6 @@
     <color name="listFooterTextColor">#555555</color>
     <color name="link_separator">#DDDDDD</color>
 
+    <color name="commentTextColor">#828282</color>
+
 </resources>

@@ -139,7 +139,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
             // adding or replacing the detail fragment using a
             // fragment transaction.
 //            Bundle arguments = new Bundle();
-//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
+//            arguments.putString(ItemDetailFragment.KEY_ID, id);
             ItemDetailFragment fragment = new ItemDetailFragment();
 //            fragment.setItem(mDataSource.getById(Integer.parseInt(id)));
 //            fragment.setArguments(arguments);
@@ -152,7 +152,7 @@ public class MainActivity extends Activity implements ItemListFragment.Callbacks
             // for the selected item ID.
 
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
+            detailIntent.putExtra(ItemDetailFragment.KEY_ID, item.getId());
             startActivity(detailIntent);
         }
     }

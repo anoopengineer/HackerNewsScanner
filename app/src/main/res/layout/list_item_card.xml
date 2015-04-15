@@ -107,12 +107,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hn_card_score"
                     android:textColor="@color/listFooterTextColor" />
 
                 <TextView
+                    android:id="@+id/comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hn_card_comments"

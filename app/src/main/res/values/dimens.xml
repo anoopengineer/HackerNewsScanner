@@ -9,4 +9,5 @@
     <dimen name="webview_vertical_margin">0dp</dimen>
     <dimen name="hn_linkView_ImageDimen">16dp</dimen>
     <dimen name="hn_card_image_button_size">20dp</dimen>
+    <dimen name="hn_comments_font_size">16dp</dimen>
 </resources>

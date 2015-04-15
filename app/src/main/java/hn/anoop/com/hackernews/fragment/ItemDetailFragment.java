@@ -1,44 +1,30 @@
 package hn.anoop.com.hackernews.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import hn.anoop.com.hackernews.R;
+import hn.anoop.com.hackernews.activities.WebViewActivity;
+import hn.anoop.com.hackernews.adapters.HNCommentsAdapter;
+import hn.anoop.com.hackernews.datasource.DataSource;
 import hn.anoop.com.hackernews.model.Item;
+import hn.anoop.com.hackernews.utils.UI;
 
-/**
- * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link hn.anoop.com.hackernews.activities.MainActivity}
- * in two-pane mode (on tablets) or a {@link hn.anoop.com.hackernews.activities.ItemDetailActivity}
- * on handsets.
- */
 public class ItemDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String KEY_ID = "item_id";
 
-    /**
-     * The data this fragment is presenting.
-     */
     private Item mItem;
+    private RecyclerView mCommentsView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ItemDetailFragment() {
 
-    }
-
-    public void setItem(Item item) {
-        this.mItem = item;
     }
 
     @Override
@@ -53,19 +39,17 @@ public class ItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
         Bundle bundle = getArguments();
-        if(bundle != null) {
-            mItem = (Item) bundle.getSerializable("selectedItem");
-            Log.e("item","bundlee"+mItem);
-
+        if (bundle != null) {
+            int id = bundle.getInt(KEY_ID);
+            mItem = DataSource.getInstance().getById(id);
         }
-
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            //TODO: Remove the hard codings
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText("Anoop");
-            Log.e("item","itemmm"+mItem.getTitle());
-        }
-
+        mCommentsView = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
+        mCommentsView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mCommentsView.setLayoutManager(mLayoutManager);
+        HNCommentsAdapter adapter = new HNCommentsAdapter(mItem.getId());
+        mCommentsView.setAdapter(adapter);
         return rootView;
     }
 }

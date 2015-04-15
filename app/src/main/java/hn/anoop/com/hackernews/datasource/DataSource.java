@@ -16,6 +16,7 @@ import hn.anoop.com.hackernews.datafetcher.ItemFetcher;
 import hn.anoop.com.hackernews.datafetcher.TopItemsIdFetcher;
 import hn.anoop.com.hackernews.model.Item;
 import hn.anoop.com.hackernews.utils.MyBus;
+import hn.anoop.com.hackernews.utils.Utils;
 
 /**
  * Created by Akunju00c on 12/10/2014.
@@ -131,7 +132,7 @@ public class DataSource {
     private void fetchIndex(int startIndex, int length) {
         URL[] urls = new URL[length];
         for (int i = startIndex; i < length; i++) {
-            urls[i] = getItemURL(mIDList[i]);
+            urls[i] = Utils.getItemURL(mIDList[i]);
             //TODO:handle null
         }
         new ItemFetcher(mClient, mGson).execute(urls);
@@ -161,7 +162,7 @@ public class DataSource {
 
         URL[] urls = new URL[length];
         for (int i = 0; i < length; i++) {
-            urls[i] = getItemURL(mIDList[currentFetchSize+i]);
+            urls[i] = Utils.getItemURL(mIDList[currentFetchSize + i]);
             //TODO:handle null
         }
         new ItemFetcher(mClient, mGson).execute(urls);
@@ -173,15 +174,5 @@ public class DataSource {
         public void dataUpdated();
     }
 
-    private URL getItemURL(Integer id) {
-        String url = "https://hacker-news.firebaseio.com/v0/item/" + id + ".json";
-        try {
-            Log.e("ANOOP", url);
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            Log.e("ANOOP", " Exception on converting " + id + " to URL", e);
-            return null;
-        }
 
-    }
 }

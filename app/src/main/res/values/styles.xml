@@ -13,4 +13,18 @@
         <item name="android:background">@color/primary</item>
     </style>
 
+    <style name="comments_author">
+        <item name="android:textColor">@color/commentTextColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/hn_comments_font_size</item>
+    </style>
+    <style name="comments_date">
+        <item name="android:textColor">@color/commentTextColor</item>
+        <item name="android:textSize">@dimen/hn_comments_font_size</item>
+    </style>
+    <style name="comments_text">
+        <item name="android:textColor">@color/commentTextColor</item>
+        <item name="android:textSize">@dimen/hn_comments_font_size</item>
+    </style>
+
 </resources>
